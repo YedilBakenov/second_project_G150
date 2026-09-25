@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+<div th:insert="navbar.html"></div>
+<div class="container">
+    <table class="table table-striped mt-2">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>FULL NAME</th>
+            <th>CITY</th>
+            <th>GPA</th>
+            <th>IIN</th>
+            <th style="width: 7%;">DETAILS</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="student: ${students}">
+            <td th:text="${student.id}"></td>
+            <td th:text="${student.fullName}"></td>
+            <td th:text="${student.city}"></td>
+            <td th:text="${student.gpa}"></td>
+            <td th:text="${student.iin}"></td>
+            <td><a class="btn btn-sm btn-secondary" th:href="@{'/details/' + ${student.id}}">DETAILS</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>

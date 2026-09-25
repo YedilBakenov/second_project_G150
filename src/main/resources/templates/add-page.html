@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+  <div th:insert="navbar.html"></div>
+  <div class="container mt-2">
+      <div class="row justify-content-center">
+          <div class="col-6">
+              <form action="/add-student" method="post">
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>FULL NAME</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="fullName">
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>CITY</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="city">
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>GPA</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="gpa" >
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>IIN</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="iin" >
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <button class="btn btn-success btn-sm">ADD STUDENT</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</body>
+</html>

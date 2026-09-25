@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+  <div th:insert="navbar.html"></div>
+  <div class="container mt-2">
+      <div class="row justify-content-center">
+          <div class="col-6">
+              <form action="/update-student" method="post">
+                  <input type="hidden" th:value="${student.id}" name="id">
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>FULL NAME</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="fullName" th:value="${student.fullName}">
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>CITY</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="city" th:value="${student.city}">
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>GPA</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="gpa" th:value="${student.gpa}">
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <label>IIN</label>
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="text" class="form-control" name="iin" th:value="${student.iin}">
+                      </div>
+                  </div>
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <button class="btn btn-success btn-sm">UPDATE STUDENT</button>
+                      </div>
+                  </div>
+              </form>
+              <form action="/delete" method="post">
+                  <div class="row mt-2">
+                      <div class="col-12">
+                          <input type="hidden" th:value="${student.id}" name="id">
+                          <button class="btn btn-danger btn-sm">DELETE STUDENT</button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</body>
+</html>
