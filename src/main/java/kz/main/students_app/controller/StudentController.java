@@ -41,12 +41,14 @@ public class StudentController {
 
     @GetMapping(value = "/add-student")
     public String addStudent(){
+
         return "add-page";
     }
 
     @PostMapping(value = "/add-student")
-    public String addStudentToBase(Student student){
-        Student.addStudent(student);
+    public String addStudentToBase(Student st){
+        Student.addStudent(st);
+
         return "redirect:/";
     }
 }
