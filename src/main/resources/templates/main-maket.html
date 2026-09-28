@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div th:insert="links.html"></div>
+</head>
+<body>
+   <div th:insert="navbar.html"></div>
+    <div class="container mt-2">
+        <div class="row">
+            <div class="col-9" layout:fragment="other"></div>
+            <div class="col-3">
+                <div class="row">
+                    <div class="col-4">
+                        <div id="simple-list-example" class="d-flex flex-column gap-2 simple-list-example-scrollspy text-center">
+                            <a class="p-1 rounded" href="#simple-list-item-1">ALmaty</a>
+                            <a class="p-1 rounded" href="#simple-list-item-2">Astana</a>
+                            <a class="p-1 rounded" href="#simple-list-item-3">Shymkent</a>
+                            <a class="p-1 rounded" href="#simple-list-item-4">Karaganda</a>
+                        </div>
+                    </div>
+                    <div class="col-8">
+                        <div data-bs-spy="scroll" data-bs-target="#simple-list-example" data-bs-offset="0" data-bs-smooth-scroll="true" class="scrollspy-example" tabindex="0">
+                            <h4 id="simple-list-item-1">ALMATY</h4>
+                            <p>Алма́-Ата́[6][7][8][9][10], Алматы́[11][12] (каз. Алматы / Almatyо файле[13]) — город республиканского значения в Казахстане, бывшая столица Республики Казахстан (до 1997 года)</p>
+                            <h4 id="simple-list-item-2">ASTANA</h4>
+                            <p>ASTANA</p>
+                            <h4 id="simple-list-item-3">SHYMKENT</h4>
+                            <p>SHYMKENT</p>
+                            <h4 id="simple-list-item-4">KARAGANDA</h4>
+                            <p>KARAGANDA</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

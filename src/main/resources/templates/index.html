@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+                layout:decorate="main-maket.html">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <div th:insert="links.html"></div>
 </head>
 <body>
-<div th:insert="navbar.html"></div>
-<div class="container">
+<div layout:fragment="other">
     <!-- Button trigger modal -->
     <button type="button" class="btn btn-secondary mt-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
         + ADD STUDENT
