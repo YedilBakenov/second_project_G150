@@ -1,5 +1,6 @@
 package kz.main.students_app.controller;
 
+import kz.main.students_app.db.DBConnector;
 import kz.main.students_app.model.Student;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +13,7 @@ public class StudentController {
 
     @GetMapping(value = "/") // http://localhost:8080/cars
     public String getStudents(Model model){
-        model.addAttribute("students", Student.getStudents());
+        model.addAttribute("students", DBConnector.getAllStudents());
         return "index";
     }
 
