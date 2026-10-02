@@ -32,7 +32,7 @@ public class DBConnector {
 
         try {
 
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students ORDER BY id DESC");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students ORDER BY id ASC");
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -54,6 +54,92 @@ public class DBConnector {
         }
 
         return students;
+    }
+
+    public static Student getStudentByID(int id){
+
+        Student student = new Student();
+
+        try{
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students WHERE id=?");
+
+            statement.setInt(1, id);
+
+            ResultSet resultSet = statement.executeQuery();
+
+            if(resultSet.next()){
+                student.setId(resultSet.getInt("id"));
+                student.setGpa(resultSet.getDouble("gpa"));
+                student.setCity(resultSet.getString("city"));
+                student.setIin(resultSet.getString("iin"));
+                student.setFullName(resultSet.getString("full_name"));
+            }
+
+            resultSet.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return student;
+    }
+
+    public static void addStudent(Student student){
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("INSERT INTO students (full_name, " +
+                    "gpa, city, iin) VALUES (?, ?, ?, ?)");
+
+            statement.setString(1, student.getFullName());
+            statement.setDouble(2, student.getGpa());
+            statement.setString(3, student.getCity());
+            statement.setString(4, student.getIin());
+
+            statement.executeUpdate();
+            statement.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void updateStudent(Student student){
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("UPDATE students SET full_name=?, gpa=?, " +
+                    "city=?, iin=? WHERE id=?");
+            statement.setString(1, student.getFullName());
+            statement.setDouble(2, student.getGpa());
+            statement.setString(3, student.getCity());
+            statement.setString(4, student.getIin());
+            statement.setInt(5, student.getId());
+
+            statement.executeUpdate();
+            statement.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void deleteStudentByID(int id){
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("DELETE FROM students WHERE id=?");
+
+            statement.setInt(1, id);
+
+            statement.executeUpdate();
+            statement.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 

@@ -21,22 +21,21 @@ public class StudentController {
     public String detailsPage(@PathVariable Integer id,
                               Model model){
 
-        System.out.println(id);
-        model.addAttribute("student", Student.getStudentById(id));
+        model.addAttribute("student", DBConnector.getStudentByID(id));
 
         return "details";
     }
 
     @PostMapping(value = "/update-student")
     public String updateStudent(Student student){
-        Student.updateStudent(student);
+        DBConnector.updateStudent(student);
 
         return "redirect:/";
     }
 
     @PostMapping(value = "/delete")
     public String deleteStudent(Integer id){
-        Student.deleteStudent(id);
+        DBConnector.deleteStudentByID(id);
         return "redirect:/";
     }
 
@@ -48,7 +47,7 @@ public class StudentController {
 
     @PostMapping(value = "/add-student")
     public String addStudentToBase(Student st){
-        Student.addStudent(st);
+        DBConnector.addStudent(st);
 
         return "redirect:/";
     }

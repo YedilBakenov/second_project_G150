@@ -18,9 +18,9 @@ public class Student {
 
     private Integer id;
     private static Integer idAdd = 4;
-    public String fullName;
+    private String fullName;
 
-    public double gpa;
+    private double gpa;
 
     private String city;
 
