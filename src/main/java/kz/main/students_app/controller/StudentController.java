@@ -14,6 +14,7 @@ public class StudentController {
     @GetMapping(value = "/") // http://localhost:8080/cars
     public String getStudents(Model model){
         model.addAttribute("students", DBConnector.getAllStudents());
+        model.addAttribute("cities", DBConnector.getAllCities());
         return "index";
     }
 
@@ -22,6 +23,7 @@ public class StudentController {
                               Model model){
 
         model.addAttribute("student", DBConnector.getStudentByID(id));
+        model.addAttribute("cities", DBConnector.getAllCities());
 
         return "details";
     }
@@ -40,7 +42,9 @@ public class StudentController {
     }
 
     @GetMapping(value = "/add-student")
-    public String addStudent(){
+    public String addStudent(Model model){
+
+        model.addAttribute("cities", DBConnector.getAllCities());
 
         return "add-page";
     }

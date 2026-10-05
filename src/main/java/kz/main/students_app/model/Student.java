@@ -22,7 +22,7 @@ public class Student {
 
     private double gpa;
 
-    private String city;
+    private City city;
 
     private String iin;
 
@@ -30,9 +30,9 @@ public class Student {
     private static List<Student> students = new ArrayList<>();
 
     static {
-        students.add(new Student(1, "Serik Serikov", 2.5, "Taraz", "9021312310"));
-        students.add(new Student(2, "Berik Berikov", 3.5, "Shymkent", "9521312310"));
-        students.add(new Student(3, "Merik Merikov", 4.5, "Almaty", "9721312310"));
+        students.add(new Student(1, "Serik Serikov", 2.5, new City(), "9021312310"));
+        students.add(new Student(2, "Berik Berikov", 3.5, new City(), "9521312310"));
+        students.add(new Student(3, "Merik Merikov", 4.5, new City(), "9721312310"));
     }
 
 

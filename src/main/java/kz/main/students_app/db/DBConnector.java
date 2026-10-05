@@ -1,7 +1,7 @@
 package kz.main.students_app.db;
 
-import com.sun.jdi.connect.Connector;
 import kz.main.students_app.model.Student;
+import kz.main.students_app.model.City;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -32,7 +32,8 @@ public class DBConnector {
 
         try {
 
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students ORDER BY id ASC");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students s INNER JOIN cities c " +
+                    "ON s.city_id = c.id ORDER BY s.id ASC");
 
             ResultSet resultSet = statement.executeQuery();
 
@@ -40,9 +41,17 @@ public class DBConnector {
                 Student student = new Student();
                 student.setId(resultSet.getInt("id"));
                 student.setGpa(resultSet.getDouble("gpa"));
-                student.setCity(resultSet.getString("city"));
                 student.setIin(resultSet.getString("iin"));
                 student.setFullName(resultSet.getString("full_name"));
+
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                city.setCityName(resultSet.getString("city_name"));
+                city.setCode(resultSet.getString("code"));
+                city.setCountPeople(resultSet.getInt("count_people"));
+                city.setRating(resultSet.getDouble("rating"));
+
+                student.setCity(city);
 
                 students.add(student);
             }
@@ -61,7 +70,8 @@ public class DBConnector {
         Student student = new Student();
 
         try{
-            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students WHERE id=?");
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM students st " +
+                    "INNER JOIN cities c ON st.city_id=c.id WHERE st.id=?");
 
             statement.setInt(1, id);
 
@@ -70,9 +80,17 @@ public class DBConnector {
             if(resultSet.next()){
                 student.setId(resultSet.getInt("id"));
                 student.setGpa(resultSet.getDouble("gpa"));
-                student.setCity(resultSet.getString("city"));
                 student.setIin(resultSet.getString("iin"));
                 student.setFullName(resultSet.getString("full_name"));
+
+                City city = new City();
+                city.setId(resultSet.getInt("city_id"));
+                city.setCityName(resultSet.getString("city_name"));
+                city.setCode(resultSet.getString("code"));
+                city.setCountPeople(resultSet.getInt("count_people"));
+                city.setRating(resultSet.getDouble("rating"));
+
+                student.setCity(city);
             }
 
             resultSet.close();
@@ -89,11 +107,11 @@ public class DBConnector {
         try {
 
             PreparedStatement statement = connection.prepareStatement("INSERT INTO students (full_name, " +
-                    "gpa, city, iin) VALUES (?, ?, ?, ?)");
+                    "gpa, city_id, iin) VALUES (?, ?, ?, ?)");
 
             statement.setString(1, student.getFullName());
             statement.setDouble(2, student.getGpa());
-            statement.setString(3, student.getCity());
+            statement.setInt(3, student.getCity().getId());
             statement.setString(4, student.getIin());
 
             statement.executeUpdate();
@@ -110,10 +128,10 @@ public class DBConnector {
         try {
 
             PreparedStatement statement = connection.prepareStatement("UPDATE students SET full_name=?, gpa=?, " +
-                    "city=?, iin=? WHERE id=?");
+                    "city_id=?, iin=? WHERE id=?");
             statement.setString(1, student.getFullName());
             statement.setDouble(2, student.getGpa());
-            statement.setString(3, student.getCity());
+            statement.setInt(3, student.getCity().getId());
             statement.setString(4, student.getIin());
             statement.setInt(5, student.getId());
 
@@ -140,6 +158,36 @@ public class DBConnector {
         }catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+    public static ArrayList<City> getAllCities(){
+        ArrayList<City> newList = new ArrayList<>();
+
+        try {
+
+            PreparedStatement statement = connection.prepareStatement("SELECT * FROM cities");
+
+            ResultSet resultSet = statement.executeQuery();
+
+            while (resultSet.next()){
+                City city = new City();
+                city.setId(resultSet.getInt("id"));
+                city.setCityName(resultSet.getString("city_name"));
+                city.setCode(resultSet.getString("code"));
+                city.setCountPeople(resultSet.getInt("count_people"));
+                city.setRating(resultSet.getDouble("rating"));
+
+                newList.add(city);
+            }
+
+            statement.close();
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return newList;
+
     }
 
 
