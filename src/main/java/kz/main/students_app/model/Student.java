@@ -1,5 +1,6 @@
 package kz.main.students_app.model;
 
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,15 +15,20 @@ import java.util.Objects;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
+@Table(name = "students")
 public class Student {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private static Integer idAdd = 4;
     private String fullName;
 
     private double gpa;
 
-    private City city;
+    private String city;
 
     private String iin;
 
@@ -30,9 +36,9 @@ public class Student {
     private static List<Student> students = new ArrayList<>();
 
     static {
-        students.add(new Student(1, "Serik Serikov", 2.5, new City(), "9021312310"));
-        students.add(new Student(2, "Berik Berikov", 3.5, new City(), "9521312310"));
-        students.add(new Student(3, "Merik Merikov", 4.5, new City(), "9721312310"));
+        students.add(new Student(1, "Serik Serikov", 2.5, null, "9021312310"));
+        students.add(new Student(2, "Berik Berikov", 3.5, null, "9521312310"));
+        students.add(new Student(3, "Merik Merikov", 4.5, null, "9721312310"));
     }
 
 

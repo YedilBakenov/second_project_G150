@@ -44,14 +44,14 @@ public class DBConnector {
                 student.setIin(resultSet.getString("iin"));
                 student.setFullName(resultSet.getString("full_name"));
 
-                City city = new City();
-                city.setId(resultSet.getInt("city_id"));
-                city.setCityName(resultSet.getString("city_name"));
-                city.setCode(resultSet.getString("code"));
-                city.setCountPeople(resultSet.getInt("count_people"));
-                city.setRating(resultSet.getDouble("rating"));
-
-                student.setCity(city);
+//                City city = new City();
+//                city.setId(resultSet.getInt("city_id"));
+//                city.setCityName(resultSet.getString("city_name"));
+//                city.setCode(resultSet.getString("code"));
+//                city.setCountPeople(resultSet.getInt("count_people"));
+//                city.setRating(resultSet.getDouble("rating"));
+//
+//                student.setCity(city);
 
                 students.add(student);
             }
@@ -83,14 +83,14 @@ public class DBConnector {
                 student.setIin(resultSet.getString("iin"));
                 student.setFullName(resultSet.getString("full_name"));
 
-                City city = new City();
-                city.setId(resultSet.getInt("city_id"));
-                city.setCityName(resultSet.getString("city_name"));
-                city.setCode(resultSet.getString("code"));
-                city.setCountPeople(resultSet.getInt("count_people"));
-                city.setRating(resultSet.getDouble("rating"));
-
-                student.setCity(city);
+//                City city = new City();
+//                city.setId(resultSet.getInt("city_id"));
+//                city.setCityName(resultSet.getString("city_name"));
+//                city.setCode(resultSet.getString("code"));
+//                city.setCountPeople(resultSet.getInt("count_people"));
+//                city.setRating(resultSet.getDouble("rating"));
+//
+//                student.setCity(city);
             }
 
             resultSet.close();
@@ -111,7 +111,7 @@ public class DBConnector {
 
             statement.setString(1, student.getFullName());
             statement.setDouble(2, student.getGpa());
-            statement.setInt(3, student.getCity().getId());
+//            statement.setInt(3, student.getCity().getId());
             statement.setString(4, student.getIin());
 
             statement.executeUpdate();
@@ -124,14 +124,13 @@ public class DBConnector {
     }
 
     public static void updateStudent(Student student){
-
         try {
 
             PreparedStatement statement = connection.prepareStatement("UPDATE students SET full_name=?, gpa=?, " +
                     "city_id=?, iin=? WHERE id=?");
             statement.setString(1, student.getFullName());
             statement.setDouble(2, student.getGpa());
-            statement.setInt(3, student.getCity().getId());
+//            statement.setInt(3, student.getCity().getId());
             statement.setString(4, student.getIin());
             statement.setInt(5, student.getId());
 
@@ -187,6 +186,7 @@ public class DBConnector {
         }
 
         return newList;
+        
 
     }
 

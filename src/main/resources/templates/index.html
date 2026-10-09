@@ -41,14 +41,18 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-12">
-                                <select class="form-control" name="city.id">
-                                    <option th:each="city: ${cities}"
-                                            th:value="${city.id}"
-                                            th:text="${city.cityName + '|' + city.code}">
-                                    </option>
-                                </select>
+<!--                                <select class="form-control" name="city.id">-->
+<!--                                    <option th:each="city: ${cities}"-->
+<!--                                            th:value="${city.id}"-->
+<!--                                            th:text="${city.cityName + '|' + city.code}">-->
+<!--                                    </option>-->
+<!--                                </select>-->
+                                <div class="col-12">
+                                    <input type="text" class="form-control" name="city">
+                                </div>
                             </div>
                         </div>
+
                         <div class="row mt-2">
                             <div class="col-12">
                                 <label>GPA</label>
@@ -93,7 +97,8 @@
         <tr th:each="student: ${students}">
             <td th:text="${student.id}"></td>
             <td th:text="${student.fullName}"></td>
-            <td th:text="${student.city.cityName + '/' + student.city.code}"></td>
+            <td th:text="${student.city}"></td>
+<!--            <td th:text="${student.city.cityName + '/' + student.city.code}"></td>-->
             <td th:text="${student.gpa}"></td>
             <td th:text="${student.iin}"></td>
             <td><a class="btn btn-sm btn-secondary" th:href="@{'/details/' + ${student.id}}">DETAILS</a></td>
