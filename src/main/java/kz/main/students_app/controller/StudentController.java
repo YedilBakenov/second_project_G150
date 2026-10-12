@@ -2,6 +2,8 @@ package kz.main.students_app.controller;
 
 import kz.main.students_app.db.DBConnector;
 import kz.main.students_app.model.Student;
+import kz.main.students_app.repository.CityRepository;
+import kz.main.students_app.repository.StudentProfileRepository;
 import kz.main.students_app.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 
@@ -18,10 +20,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class StudentController {
 
     private final StudentRepository studentRepository;
+    private final CityRepository cityRepository;
+    private final StudentProfileRepository studentProfileRepository;
 
     @GetMapping(value = "/") // http://localhost:8080/
     public String getStudents(Model model){
         model.addAttribute("students", studentRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
+        model.addAttribute("cities", cityRepository.findAll());
         return "index";
     }
 
@@ -30,7 +35,8 @@ public class StudentController {
                               Model model){
 
 //        model.addAttribute("student", DBConnector.getStudentByID(id));
-//        model.addAttribute("cities", DBConnector.getAllCities());
+
+        model.addAttribute("cities", cityRepository.findAll());
 
         model.addAttribute("student", studentRepository.findById(id).orElseThrow());
 

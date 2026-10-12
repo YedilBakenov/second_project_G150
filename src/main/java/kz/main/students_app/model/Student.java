@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -28,18 +27,23 @@ public class Student {
 
     private double gpa;
 
-    private String city;
-
     private String iin;
+
+    @OneToOne
+    private StudentProfile studentProfile;
+
+    @ManyToOne
+    @JoinColumn(name = "city_id")
+    private City city;
 
     @Getter
     private static List<Student> students = new ArrayList<>();
 
-    static {
-        students.add(new Student(1, "Serik Serikov", 2.5, null, "9021312310"));
-        students.add(new Student(2, "Berik Berikov", 3.5, null, "9521312310"));
-        students.add(new Student(3, "Merik Merikov", 4.5, null, "9721312310"));
-    }
+//    static {
+//        students.add(new Student(1, "Serik Serikov", 2.5, null, "9021312310"));
+//        students.add(new Student(2, "Berik Berikov", 3.5, null, "9521312310"));
+//        students.add(new Student(3, "Merik Merikov", 4.5, null, "9721312310"));
+//    }
 
 
     public static Student getStudentById(int id) {
