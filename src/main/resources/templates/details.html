@@ -7,83 +7,136 @@
     <title>Title</title>
 </head>
 <body>
-  <div layout:fragment="other">
-      <div class="row">
-          <div class="col-12">
-              <form action="/update-student" method="post">
-                  <input type="hidden" th:value="${student.id}" name="id">
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <label>FULL NAME</label>
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <input type="text" class="form-control" name="fullName" th:value="${student.fullName}">
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <label>CITY</label>
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                            <select class="form-control" name="city.id">
-                                <option th:each="city: ${cities}"
-                                        th:value="${city.id}"
-                                        th:text="${city.cityName + '|' + city.code}"
-                                        th:selected="${city.id==student.city.id}"></option>
-                            </select>
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <label>GPA</label>
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <input type="text" class="form-control" name="gpa" th:value="${student.gpa}">
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <label>IIN</label>
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <input type="text" class="form-control" name="iin" th:value="${student.iin}">
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <label>PROFILE</label>
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <input type="text" class="form-control" name="profile.id" th:value="${student.studentProfile.phone +
+<div layout:fragment="other">
+    <div class="row">
+        <div class="col-12">
+
+            <div class="row mt-2">
+                <div class="col-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>SUBJECT</th>
+                            <th>DETAILS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <form action="/delete-sub" method="post">
+                            <tr th:each="sub: ${student.subjects}">
+                                <input type="hidden" name="subject_id" th:value="${sub.id}">
+                                <input type="hidden" name="student_id" th:value="${student.id}">
+                                <td th:text="${sub.id}"></td>
+                                <td th:text="${sub.nameSubject}"></td>
+                                <td>
+                                    <button class="btn btn-danger btn-sm"> >>> </button>
+                                </td>
+                            </tr>
+                        </form>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-6">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>SUBJECT</th>
+                            <th>DETAILS</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <form action="/add-sub" method="post">
+                            <tr th:each="sub: ${subjects}">
+                                <input type="hidden" name="subject_id" th:value="${sub.id}">
+                                <input type="hidden" name="student_id" th:value="${student.id}">
+                                <td th:text="${sub.id}"></td>
+                                <td th:text="${sub.nameSubject}"></td>
+                                <td>
+                                    <button class="btn btn-success btn-sm"> <<<</button>
+                                </td>
+                            </tr>
+                        </form>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+            <form action="/update-student" method="post">
+                <input type="hidden" th:value="${student.id}" name="id">
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label>FULL NAME</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="fullName" th:value="${student.fullName}">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label>CITY</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <select class="form-control" name="city.id">
+                            <option th:each="city: ${cities}"
+                                    th:value="${city.id}"
+                                    th:text="${city.cityName + '|' + city.code}"
+                                    th:selected="${city.id==student.city.id}"></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label>GPA</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="gpa" th:value="${student.gpa}">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label>IIN</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="iin" th:value="${student.iin}">
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <label>PROFILE</label>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="text" class="form-control" name="profile.id" th:value="${student.studentProfile.phone +
                           '|' + student.studentProfile.passportNumber}">
-                      </div>
-                  </div>
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <button class="btn btn-success btn-sm">UPDATE STUDENT</button>
-                      </div>
-                  </div>
-              </form>
-              <form action="/delete" method="post">
-                  <div class="row mt-2">
-                      <div class="col-12">
-                          <input type="hidden" th:value="${student.id}" name="id">
-                          <button class="btn btn-danger btn-sm">DELETE STUDENT</button>
-                      </div>
-                  </div>
-              </form>
-          </div>
-      </div>
-  </div>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <button class="btn btn-success btn-sm">UPDATE STUDENT</button>
+                    </div>
+                </div>
+            </form>
+            <form action="/delete" method="post">
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <input type="hidden" th:value="${student.id}" name="id">
+                        <button class="btn btn-danger btn-sm">DELETE STUDENT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 </body>
 </html>

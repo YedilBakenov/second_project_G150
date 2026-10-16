@@ -36,6 +36,9 @@ public class Student {
     @JoinColumn(name = "city_id")
     private City city;
 
+    @ManyToMany
+    private List<Subject> subjects;
+
     @Getter
     private static List<Student> students = new ArrayList<>();
 
