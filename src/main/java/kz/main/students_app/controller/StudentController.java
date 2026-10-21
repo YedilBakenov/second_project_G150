@@ -36,6 +36,15 @@ public class StudentController {
         return "index";
     }
 
+    @GetMapping(value = "/search")
+    public String getStudentsByWord(@RequestParam String word,
+                                    Model model){
+        model.addAttribute("students", studentRepository.findStudentsByWord(word));
+        model.addAttribute("cities", cityRepository.findAll());
+
+        return "index";
+    }
+
     @GetMapping(value = "/details/{id}")
     public String detailsPage(@PathVariable Integer id,
                               Model model){
