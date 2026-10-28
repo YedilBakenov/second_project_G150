@@ -9,6 +9,7 @@ import jakarta.persistence.criteria.Root;
 import kz.main.students_app.model.Student;
 import kz.main.students_app.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Slf4j
 public class CriteriaBuilderRequests {
 
     private final StudentRepository studentRepository;
@@ -23,7 +25,11 @@ public class CriteriaBuilderRequests {
     @PersistenceContext
     private EntityManager entityManager;
 
+
+
     public List<Student> findStudentsByFullNameAndGpa(String fullName, Double gpa){
+
+        log.info("Start criteria builder: fullName: {}, gpa: {}", fullName, gpa);
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Student> query  = cb.createQuery(Student.class);
@@ -43,6 +49,7 @@ public class CriteriaBuilderRequests {
 
         return entityManager.createQuery(query).getResultList();
 
+
     }
 
     public List<Student> findStudentsByGpaGreaterThan(Double gpa){
@@ -56,6 +63,7 @@ public class CriteriaBuilderRequests {
         query.select(root).where(predicate);
 
         return entityManager.createQuery(query).getResultList();
+
 
     }
 
