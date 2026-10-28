@@ -1,5 +1,6 @@
 package kz.main.students_app.controller;
 
+import kz.main.students_app.db.CriteriaBuilderRequests;
 import kz.main.students_app.db.DBConnector;
 import kz.main.students_app.model.Student;
 import kz.main.students_app.model.Subject;
@@ -28,6 +29,7 @@ public class StudentController {
     private final CityRepository cityRepository;
     private final StudentProfileRepository studentProfileRepository;
     private final SubjectRepository subjectRepository;
+    private  final CriteriaBuilderRequests criteriaBuilderRequests;
 
     @GetMapping(value = "/") // http://localhost:8080/
     public String getStudents(Model model){
@@ -128,6 +130,24 @@ public class StudentController {
 
         return "redirect:/details/" + student_id;
 
+    }
 
+    @GetMapping(value = "/greater-gpa")
+    public String getStudentsByGpaGreaterThen(Model model,
+                                              @RequestParam double gpa){
+
+        model.addAttribute("students", criteriaBuilderRequests.findStudentsByGpaGreaterThan(gpa));
+
+        return "index";
+    }
+
+    @GetMapping(value = "/gpa-full-name")
+    public String getStudentsByGpaAndFullName(Model model,
+                                              @RequestParam(required = false) String fullName,
+                                              @RequestParam(required = false) Double gpa){
+
+        model.addAttribute("students", criteriaBuilderRequests.findStudentsByFullNameAndGpa(fullName, gpa));
+
+        return "index";
     }
 }

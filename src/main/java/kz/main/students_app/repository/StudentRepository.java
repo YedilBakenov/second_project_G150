@@ -11,7 +11,7 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Integer> {
 
     @Query("SELECT st FROM Student st WHERE st.fullName ilike concat('%', :word, '%') " +
-            "OR st.city.cityName ilike concat('%', :word, '%') OR st.gpa = :word")
+            "OR st.city.cityName ilike concat('%', :word, '%')")
     List<Student> findStudentsByWord(String word);
 
 }
