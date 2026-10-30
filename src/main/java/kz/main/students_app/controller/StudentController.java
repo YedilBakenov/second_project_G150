@@ -10,6 +10,9 @@ import kz.main.students_app.repository.StudentRepository;
 import kz.main.students_app.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 
@@ -33,7 +36,7 @@ public class StudentController {
 
     @GetMapping(value = "/") // http://localhost:8080/
     public String getStudents(Model model){
-        model.addAttribute("students", studentRepository.findAll(Sort.by(Sort.Direction.DESC, "id")));
+        model.addAttribute("students", studentRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
         model.addAttribute("cities", cityRepository.findAll());
         return "index";
     }
@@ -150,4 +153,43 @@ public class StudentController {
 
         return "index";
     }
+
+    @GetMapping(value = "/sort-pagination")
+    public String getAllStudentsByPagination(Model model,
+                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "2") int size,
+                                             @RequestParam(defaultValue = "id") String param,
+                                             @RequestParam(defaultValue = "asc") String direction){
+
+        Sort sort = direction.equalsIgnoreCase("desc") ? Sort.by(param).descending(): Sort.by(param).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Student> studentPage = studentRepository.findAll(pageable);
+
+        model.addAttribute("students", studentPage);
+
+        return "index";
+
+    }
+
+    @GetMapping(value = "/gpa-pagination")
+    public String getStudentsByGpaPagination(Model model,
+                                             @RequestParam double gpa,
+                                             @RequestParam(defaultValue = "0") int page,
+                                             @RequestParam(defaultValue = "3") int size,
+                                             @RequestParam(defaultValue = "id") String param,
+                                             @RequestParam(defaultValue = "asc") String direction){
+
+        Sort sort = direction.equalsIgnoreCase("desc")? Sort.by(param).descending():Sort.by(param).ascending();
+
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        Page<Student> studentPage = studentRepository.findByGpaGreaterThan(gpa, pageable);
+
+        model.addAttribute("students", studentPage);
+
+        return "index";
+    }
+
 }
