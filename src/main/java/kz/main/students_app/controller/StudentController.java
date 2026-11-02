@@ -1,13 +1,10 @@
 package kz.main.students_app.controller;
 
-import kz.main.students_app.db.CriteriaBuilderRequests;
-import kz.main.students_app.db.DBConnector;
 import kz.main.students_app.model.Student;
 import kz.main.students_app.model.Subject;
-import kz.main.students_app.repository.CityRepository;
-import kz.main.students_app.repository.StudentProfileRepository;
-import kz.main.students_app.repository.StudentRepository;
-import kz.main.students_app.repository.SubjectRepository;
+import kz.main.students_app.service.CityService;
+import kz.main.students_app.service.StudentService;
+import kz.main.students_app.service.SubjectService;
 import lombok.RequiredArgsConstructor;
 
 import org.springframework.data.domain.Page;
@@ -28,24 +25,22 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StudentController {
 
-    private final StudentRepository studentRepository;
-    private final CityRepository cityRepository;
-    private final StudentProfileRepository studentProfileRepository;
-    private final SubjectRepository subjectRepository;
-    private  final CriteriaBuilderRequests criteriaBuilderRequests;
+    private final StudentService studentService;
+    private final SubjectService subjectService;
+    private final CityService cityService;
 
     @GetMapping(value = "/") // http://localhost:8080/
     public String getStudents(Model model){
-        model.addAttribute("students", studentRepository.findAll(Sort.by(Sort.Direction.ASC, "id")));
-        model.addAttribute("cities", cityRepository.findAll());
+        model.addAttribute("students", studentService.getAllStudents());
+        model.addAttribute("cities", cityService.getAllCities());
         return "index";
     }
 
     @GetMapping(value = "/search")
     public String getStudentsByWord(@RequestParam String word,
                                     Model model){
-        model.addAttribute("students", studentRepository.findStudentsByWord(word));
-        model.addAttribute("cities", cityRepository.findAll());
+        model.addAttribute("students", studentService.findStudentsBySearch(word));
+        model.addAttribute("cities", cityService.getAllCities());
 
         return "index";
     }
@@ -56,15 +51,15 @@ public class StudentController {
 
 //        model.addAttribute("student", DBConnector.getStudentByID(id));
 
-        Student student = studentRepository.findById(id).orElseThrow();
+        Student student = studentService.getStudent(id);
 
-        List<Subject> subjects = subjectRepository.findAll();
+        List<Subject> subjects = subjectService.getAllSubjects();
 
-         subjects.removeAll(student.getSubjects());
+        subjects.removeAll(student.getSubjects());
 
-        model.addAttribute("cities", cityRepository.findAll());
+        model.addAttribute("cities", cityService.getAllCities());
 
-        model.addAttribute("student", studentRepository.findById(id).orElseThrow());
+        model.addAttribute("student", studentService.getStudent(id));
 
         model.addAttribute("subjects", subjects);
 
@@ -75,7 +70,7 @@ public class StudentController {
     public String updateStudent(Student student){
 //        DBConnector.updateStudent(student);
 
-        studentRepository.save(student);
+        studentService.updateStudent(student);
 
         return "redirect:/";
     }
@@ -83,7 +78,7 @@ public class StudentController {
     @PostMapping(value = "/delete")
     public String deleteStudent(Integer id){
 //        DBConnector.deleteStudentByID(id);
-        studentRepository.deleteById(id);
+       studentService.deleteStudent(id);
 
         return "redirect:/";
     }
@@ -99,7 +94,7 @@ public class StudentController {
     @PostMapping(value = "/add-student")
     public String addStudentToBase(Student st){
 //        DBConnector.addStudent(st);
-        studentRepository.save(st);
+        studentService.addStudent(st);
 
         return "redirect:/";
     }
@@ -108,12 +103,12 @@ public class StudentController {
     public String deleteSubject(@RequestParam int subject_id,
                                 @RequestParam int student_id){
 
-        Student student = studentRepository.findById(student_id).orElseThrow();
-        Subject subject = subjectRepository.findById(subject_id).orElseThrow();
+        Student student = studentService.getStudent(student_id);
+        Subject subject = subjectService.getSubject(subject_id);
 
         student.getSubjects().remove(subject);
 
-        studentRepository.save(student);
+        studentService.updateStudent(student);
 
         return "redirect:/details/" + student_id;
 
@@ -124,12 +119,12 @@ public class StudentController {
     public String addSubject(@RequestParam int subject_id,
                                 @RequestParam int student_id){
 
-        Student student = studentRepository.findById(student_id).orElseThrow();
-        Subject subject = subjectRepository.findById(subject_id).orElseThrow();
+        Student student = studentService.getStudent(student_id);
+        Subject subject = subjectService.getSubject(subject_id);
 
         student.getSubjects().add(subject);
 
-        studentRepository.save(student);
+        studentService.updateStudent(student);
 
         return "redirect:/details/" + student_id;
 
@@ -139,7 +134,7 @@ public class StudentController {
     public String getStudentsByGpaGreaterThen(Model model,
                                               @RequestParam double gpa){
 
-        model.addAttribute("students", criteriaBuilderRequests.findStudentsByGpaGreaterThan(gpa));
+        model.addAttribute("students", studentService.findStudentsByGpaGreaterThan(gpa));
 
         return "index";
     }
@@ -149,7 +144,7 @@ public class StudentController {
                                               @RequestParam(required = false) String fullName,
                                               @RequestParam(required = false) Double gpa){
 
-        model.addAttribute("students", criteriaBuilderRequests.findStudentsByFullNameAndGpa(fullName, gpa));
+        model.addAttribute("students", studentService.findStudentsByFullNameAndGpa(fullName, gpa));
 
         return "index";
     }
@@ -165,7 +160,7 @@ public class StudentController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<Student> studentPage = studentRepository.findAll(pageable);
+        Page<Student> studentPage = studentService.findAll(pageable);
 
         model.addAttribute("students", studentPage);
 
@@ -185,7 +180,7 @@ public class StudentController {
 
         Pageable pageable = PageRequest.of(page, size, sort);
 
-        Page<Student> studentPage = studentRepository.findByGpaGreaterThan(gpa, pageable);
+        Page<Student> studentPage = studentService.findByGpaGreaterThan(gpa, pageable);
 
         model.addAttribute("students", studentPage);
 
