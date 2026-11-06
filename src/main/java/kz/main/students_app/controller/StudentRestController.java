@@ -27,6 +27,11 @@ public class StudentRestController {
         return studentService.getAllStudents();
     }
 
+    @GetMapping(value = "/get-subjects")
+    public List<Subject> getAllSubjects(){
+        return subjectService.getAllSubjects();
+    }
+
     @GetMapping(value = "/get-student/{id}")
     public Student getStudentById(@PathVariable int id){
         return studentService.getStudent(id);
@@ -48,11 +53,11 @@ public class StudentRestController {
     }
 
     @DeleteMapping(value = "/delete")
-    public void deleteStudent(@RequestBody int id){
+    public void deleteStudent(@RequestParam int id){
         studentService.deleteStudent(id);
     }
 
-    @DeleteMapping(value = "/delete-sub")
+    @PatchMapping(value = "/delete-sub")
     public void deleteSubject(@RequestParam int subject_id,
                                 @RequestParam int student_id) {
 
@@ -79,7 +84,7 @@ public class StudentRestController {
     }
 
     @GetMapping(value = "/greater-gpa")
-    public List<Student> getStudentsByGpaGreaterThen(Model model,
+    public List<Student> getStudentsByGpaGreaterThen(
                                               @RequestParam double gpa){
 
        return studentService.findStudentsByGpaGreaterThan(gpa);
@@ -95,7 +100,7 @@ public class StudentRestController {
     }
 
     @GetMapping(value = "/sort-pagination")
-    public List<Student> getAllStudentsByPagination(Model model,
+    public List<Student> getAllStudentsByPagination(
                                              @RequestParam(defaultValue = "1") int page,
                                              @RequestParam(defaultValue = "3") int size,
                                              @RequestParam(defaultValue = "id") String param,
