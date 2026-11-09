@@ -45,35 +45,35 @@ public class StudentController {
         return "index";
     }
 
-    @GetMapping(value = "/details/{id}")
-    public String detailsPage(@PathVariable Integer id,
-                              Model model){
+//    @GetMapping(value = "/details/{id}")
+//    public String detailsPage(@PathVariable Integer id,
+//                              Model model){
+//
+////        model.addAttribute("student", DBConnector.getStudentByID(id));
+//
+//        Student student = studentService.getStudent(id);
+//
+//        List<Subject> subjects = subjectService.getAllSubjects();
+//
+//        subjects.removeAll(student.getSubjects());
+//
+//        model.addAttribute("cities", cityService.getAllCities());
+//
+//        model.addAttribute("student", studentService.getStudent(id));
+//
+//        model.addAttribute("subjects", subjects);
+//
+//        return "details";
+//    }
 
-//        model.addAttribute("student", DBConnector.getStudentByID(id));
-
-        Student student = studentService.getStudent(id);
-
-        List<Subject> subjects = subjectService.getAllSubjects();
-
-        subjects.removeAll(student.getSubjects());
-
-        model.addAttribute("cities", cityService.getAllCities());
-
-        model.addAttribute("student", studentService.getStudent(id));
-
-        model.addAttribute("subjects", subjects);
-
-        return "details";
-    }
-
-    @PostMapping(value = "/update-student")
-    public String updateStudent(Student student){
-//        DBConnector.updateStudent(student);
-
-        studentService.updateStudent(student);
-
-        return "redirect:/";
-    }
+//    @PostMapping(value = "/update-student")
+//    public String updateStudent(Student student){
+////        DBConnector.updateStudent(student);
+//
+//        studentService.updateStudent(student);
+//
+//        return "redirect:/";
+//    }
 
     @PostMapping(value = "/delete")
     public String deleteStudent(Integer id){
@@ -91,44 +91,44 @@ public class StudentController {
         return "add-page";
     }
 
-    @PostMapping(value = "/add-student")
-    public String addStudentToBase(Student st){
-//        DBConnector.addStudent(st);
-        studentService.addStudent(st);
+//    @PostMapping(value = "/add-student")
+//    public String addStudentToBase(Student st){
+////        DBConnector.addStudent(st);
+//        studentService.addStudent(stu);
+//
+//        return "redirect:/";
+//    }
 
-        return "redirect:/";
-    }
+//    @PostMapping(value = "/delete-sub")
+//    public String deleteSubject(@RequestParam int subject_id,
+//                                @RequestParam int student_id){
+//
+//        Student student = studentService.getStudent(student_id);
+//        Subject subject = subjectService.getSubject(subject_id);
+//
+//        student.getSubjects().remove(subject);
+//
+//        studentService.updateStudent(student);
+//
+//        return "redirect:/details/" + student_id;
+//
+//
+//    }
 
-    @PostMapping(value = "/delete-sub")
-    public String deleteSubject(@RequestParam int subject_id,
-                                @RequestParam int student_id){
-
-        Student student = studentService.getStudent(student_id);
-        Subject subject = subjectService.getSubject(subject_id);
-
-        student.getSubjects().remove(subject);
-
-        studentService.updateStudent(student);
-
-        return "redirect:/details/" + student_id;
-
-
-    }
-
-    @PostMapping(value = "/add-sub")
-    public String addSubject(@RequestParam int subject_id,
-                                @RequestParam int student_id){
-
-        Student student = studentService.getStudent(student_id);
-        Subject subject = subjectService.getSubject(subject_id);
-
-        student.getSubjects().add(subject);
-
-        studentService.updateStudent(student);
-
-        return "redirect:/details/" + student_id;
-
-    }
+//    @PostMapping(value = "/add-sub")
+//    public String addSubject(@RequestParam int subject_id,
+//                                @RequestParam int student_id){
+//
+//        Student student = studentService.getStudent(student_id);
+//        Subject subject = subjectService.getSubject(subject_id);
+//
+//        student.getSubjects().add(subject);
+//
+//        studentService.updateStudent(student);
+//
+//        return "redirect:/details/" + student_id;
+//
+//    }
 
     @GetMapping(value = "/greater-gpa")
     public String getStudentsByGpaGreaterThen(Model model,

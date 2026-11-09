@@ -1,5 +1,7 @@
 package kz.main.students_app.controller;
 
+import kz.main.students_app.dto.StudentDto;
+import kz.main.students_app.mapper.StudentMapper;
 import kz.main.students_app.model.Student;
 import kz.main.students_app.model.Subject;
 import kz.main.students_app.service.StudentService;
@@ -21,9 +23,10 @@ public class StudentRestController {
 
     private final StudentService studentService;
     private final SubjectService subjectService;
+    private final StudentMapper studentMapper;
 
     @GetMapping(value = "/")
-    public List<Student> getAllStudents(){
+    public List<StudentDto> getAllStudents(){
         return studentService.getAllStudents();
     }
 
@@ -33,23 +36,23 @@ public class StudentRestController {
     }
 
     @GetMapping(value = "/get-student/{id}")
-    public Student getStudentById(@PathVariable int id){
+    public StudentDto getStudentById(@PathVariable int id){
         return studentService.getStudent(id);
     }
 
     @GetMapping(value = "/search")
-    public List<Student> getStudentsByWord(@RequestParam String word){
+    public List<StudentDto> getStudentsByWord(@RequestParam String word){
         return studentService.findStudentsBySearch(word);
     }
 
     @PostMapping(value = "/add-student")
-    public void addStudent(@RequestBody Student student){
-         studentService.addStudent(student);
+    public void addStudent(@RequestBody StudentDto studentDto){
+         studentService.addStudent(studentDto);
     }
 
     @PutMapping(value = "/update-student")
-    public void updateStudent(@RequestBody Student student){
-        studentService.updateStudent(student);
+    public void updateStudent(@RequestBody StudentDto studentDto){
+        studentService.updateStudent(studentDto);
     }
 
     @DeleteMapping(value = "/delete")
@@ -61,7 +64,7 @@ public class StudentRestController {
     public void deleteSubject(@RequestParam int subject_id,
                                 @RequestParam int student_id) {
 
-        Student student = studentService.getStudent(student_id);
+        StudentDto student = studentService.getStudent(student_id);
         Subject subject = subjectService.getSubject(subject_id);
 
         student.getSubjects().remove(subject);
@@ -74,17 +77,17 @@ public class StudentRestController {
     public void addSubject(@RequestParam int subject_id,
                              @RequestParam int student_id){
 
-        Student student = studentService.getStudent(student_id);
+        StudentDto studentDto = studentService.getStudent(student_id);
         Subject subject = subjectService.getSubject(subject_id);
 
-        student.getSubjects().add(subject);
+        studentDto.getSubjects().add(subject);
 
-        studentService.updateStudent(student);
+        studentService.updateStudent(studentDto);
 
     }
 
     @GetMapping(value = "/greater-gpa")
-    public List<Student> getStudentsByGpaGreaterThen(
+    public List<StudentDto> getStudentsByGpaGreaterThen(
                                               @RequestParam double gpa){
 
        return studentService.findStudentsByGpaGreaterThan(gpa);
@@ -100,7 +103,7 @@ public class StudentRestController {
     }
 
     @GetMapping(value = "/sort-pagination")
-    public List<Student> getAllStudentsByPagination(
+    public List<StudentDto> getAllStudentsByPagination(
                                              @RequestParam(defaultValue = "1") int page,
                                              @RequestParam(defaultValue = "3") int size,
                                              @RequestParam(defaultValue = "id") String param,
@@ -112,12 +115,12 @@ public class StudentRestController {
 
         Page<Student> studentPage = studentService.findAll(pageable);
 
-        return studentPage.stream().toList();
+        return studentMapper.toDtoList(studentPage.stream().toList());
 
     }
 
     @GetMapping(value = "/gpa-pagination")
-    public List<Student> getStudentsByGpaPagination(
+    public List<StudentDto> getStudentsByGpaPagination(
                                              @RequestParam double gpa,
                                              @RequestParam(defaultValue = "0") int page,
                                              @RequestParam(defaultValue = "3") int size,
@@ -130,7 +133,7 @@ public class StudentRestController {
 
         Page<Student> studentPage = studentService.findByGpaGreaterThan(gpa, pageable);
 
-        return studentPage.toList();
+        return studentMapper.toDtoList(studentPage.toList());
     }
 
 }

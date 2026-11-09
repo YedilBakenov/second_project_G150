@@ -1,5 +1,6 @@
 package kz.main.students_app.service;
 
+import kz.main.students_app.dto.StudentDto;
 import kz.main.students_app.model.Student;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,21 +11,21 @@ import java.util.List;
 @Service
 public interface StudentService {
 
-    List<Student> getAllStudents();
+    List<StudentDto> getAllStudents();
 
-    List<Student> findStudentsBySearch(String word);
+    List<StudentDto> findStudentsBySearch(String word);
 
-    Student getStudent(int id);
+    StudentDto getStudent(int id);
 
-    void updateStudent(Student student);
+    void updateStudent(StudentDto student);
 
-    void addStudent(Student student);
+    void addStudent(StudentDto studentDto);
 
     void deleteStudent(int id);
 
     List<Student> findStudentsByFullNameAndGpa(String fullName, Double gpa);
 
-    List<Student> findStudentsByGpaGreaterThan(Double gpa);
+    List<StudentDto> findStudentsByGpaGreaterThan(Double gpa);
 
     Page<Student> findAll(Pageable pageable);
 

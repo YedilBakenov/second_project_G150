@@ -6,6 +6,8 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
+import kz.main.students_app.dto.StudentDto;
+import kz.main.students_app.mapper.StudentMapper;
 import kz.main.students_app.model.Student;
 import kz.main.students_app.repository.StudentRepository;
 import kz.main.students_app.service.StudentService;
@@ -25,31 +27,32 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepository;
+    private final StudentMapper studentMapper;
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public List<Student> getAllStudents() {
-        return studentRepository.findAll(Sort.by(Sort.Direction.ASC, "id" ));
+    public List<StudentDto> getAllStudents() {
+        return studentMapper.toDtoList(studentRepository.findAll(Sort.by(Sort.Direction.ASC, "id" )));
     }
 
     @Override
-    public List<Student> findStudentsBySearch(String word) {
-        return studentRepository.findStudentsByWord(word);
+    public List<StudentDto> findStudentsBySearch(String word) {
+        return studentMapper.toDtoList(studentRepository.findStudentsByWord(word));
     }
 
     @Override
-    public Student getStudent(int id) {
-        return studentRepository.findById(id).get();
+    public StudentDto getStudent(int id) {
+        return studentMapper.toDto(studentRepository.findById(id).get());
     }
 
     @Override
-    public void updateStudent(Student student) {
-        studentRepository.save(student);
+    public void updateStudent(StudentDto studentDto) {
+        studentRepository.save(studentMapper.toModel(studentDto));
     }
 
     @Override
-    public void addStudent(Student student) {
-        studentRepository.save(student);
+    public void addStudent(StudentDto studentDto) {
+        studentRepository.save(studentMapper.toModel(studentDto));
     }
 
     @Override
@@ -82,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
 
     }
 
-    public List<Student> findStudentsByGpaGreaterThan(Double gpa){
+    public List<StudentDto> findStudentsByGpaGreaterThan(Double gpa){
 
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<Student> query  = cb.createQuery(Student.class);
@@ -92,7 +95,7 @@ public class StudentServiceImpl implements StudentService {
 
         query.select(root).where(predicate);
 
-        return entityManager.createQuery(query).getResultList();
+        return studentMapper.toDtoList(entityManager.createQuery(query).getResultList());
 
     }
 
@@ -104,5 +107,30 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Page<Student> findByGpaGreaterThan(double gpa, Pageable pageable) {
         return studentRepository.findByGpaGreaterThan(gpa, pageable);
+    }
+
+    public StudentDto toDto(Student student){
+
+        StudentDto studentDto = new StudentDto();
+
+        studentDto.setId(student.getId());
+        studentDto.setStudentProfileId(student.getStudentProfile());
+        studentDto.setIin(student.getIin());
+        studentDto.setGpa(student.getGpa());
+        studentDto.setCity(student.getCity());
+        studentDto.setSubjects(student.getSubjects());
+        studentDto.setImyaFamiliya(student.getFullName());
+
+        return studentDto;
+    }
+
+    public List<StudentDto> toDtoList(List<Student> students){
+        List<StudentDto> studentDtos = new ArrayList<>();
+
+        for(Student st: students){
+            studentDtos.add(toDto(st));
+        }
+
+        return studentDtos;
     }
 }
